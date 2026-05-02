@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Gestión</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="body-admin">
+    <nav class="nav-bg">
+        <div class="navegacion-principal contenedor">
+            <span style="color: white; font-size: 2rem; font-weight: bold;">Panel Admin</span>
+            <!-- Este botón limpia la sesión y te lleva al Inicio -->
+            <a href="index.html" onclick="sessionStorage.clear()" class="btn-salir">Cerrar Sesión y Volver</a>
+        </div>
+    </nav>
+
+    <main class="contenedor sombra" style="margin-top: 5rem;">
+        <h2 style="color: var(--secundario)">Bandeja de Clientes</h2>
+        <table class="tabla-gestion">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Nombre</th>
+                    <th>Contacto</th>
+                    <th>Mensaje</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="lista-prospectos"></tbody>
+        </table>
+    </main>
+
+    <script>
+        if (sessionStorage.getItem('login') !== 'true') { window.location.href = 'login.html'; }
+
+        function cargarTabla() {
+            const lista = JSON.parse(localStorage.getItem('prospectos')) || [];
+            const tbody = document.querySelector('#lista-prospectos');
+            tbody.innerHTML = lista.length ? '' : '<tr><td colspan="5">No hay mensajes nuevos</td></tr>';
+
+            lista.forEach(p => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${p.fecha}</td>
+                        <td><strong>${p.nombre}</strong></td>
+                        <td>${p.correo}<br><small>${p.telefono}</small></td>
+                        <td>${p.mensaje}</td>
+                        <td><button onclick="eliminar(${p.id})" class="boton-eliminar">Atendido</button></td>
+                    </tr>`;
+            });
+        }
+
+        function eliminar(id) {
+            let lista = JSON.parse(localStorage.getItem('prospectos'));
+            localStorage.setItem('prospectos', JSON.stringify(lista.filter(p => p.id !== id)));
+            cargarTabla();
+        }
+        cargarTabla();
+    </script>
+</body>
+</html>

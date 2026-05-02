@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso Admin</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link href="https://fonts.googleapis.com/css2?family=Krub:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="body-login">
+    <div class="contenedor-login">
+        <div class="indicador-login">Login Administrador</div>
+        <section class="login sombra">
+            <h2 class="login__titulo">Acceso administrador</h2>
+            <form id="formLogin">
+                <input class="login__input" type="text" id="user" placeholder="Usuario" required>
+                <input class="login__input" type="password" id="pass" placeholder="Contraseña" required>
+                <div class="login__flex-centro">
+                    <input class="boton-login" type="submit" value="Ingresar">
+                </div>
+            </form>
+        </section>
+    </div>
+    <script>
+        document.querySelector('#formLogin').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if(document.querySelector('#user').value === 'admin' && 
+               document.querySelector('#pass').value === '1234') {
+                sessionStorage.setItem('login', 'true');
+                window.location.href = 'admin.html';
+            } else {
+                alert('Credenciales incorrectas');
+            }
+        });
+    </script>
+</body>
+</html>
